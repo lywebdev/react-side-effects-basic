@@ -6,9 +6,23 @@ import Button from "../UI/Button/Button";
 
 const Login = (props) => {
     const emailReducer = (prevState, action) => {
+        if (action.type === 'USER_INPUT') {
+            return {
+                value: action.value,
+                isValid: action.value.includes('@'),
+            };
+        }
+
+        if (action.type === 'INPUT_BLUR') {
+            return {
+                value: prevState.value,
+                isValid: prevState.value.includes('@'),
+            };
+        }
+
         return {
             value: '',
-            isValid: false
+            isValid: false,
         };
     };
 
@@ -18,7 +32,7 @@ const Login = (props) => {
     const [passwordIsValid, setPasswordIsValid] = useState();
     const [formIsValid, setFormIsValid] = useState(false);
 
-    const [emailState, dispatchEmail] = useReducer(emailReducer, {value: '', isValid: false});
+    const [emailState, dispatchEmailState] = useReducer(emailReducer, {value: '', isValid: undefined});
 
     // useEffect(() => {
     //   const timer = setTimeout(() => {
@@ -33,7 +47,7 @@ const Login = (props) => {
     // }, [inputEmail, inputPassword]);
 
     const emailChangeHandler = (event) => {
-        dispatchEmail({
+        dispatchEmailState({
             type: 'USER_INPUT',
             value: event.target.value
         });
@@ -48,7 +62,9 @@ const Login = (props) => {
     };
 
     const validateEmailHandler = () => {
-        setEmailIsValid(emailState.isValid);
+        dispatchEmailState({
+            type: 'INPUT_BLUR',
+        });
     };
 
     const validatePasswordHandler = () => {
