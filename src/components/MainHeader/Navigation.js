@@ -16,7 +16,7 @@ const Navigation = (props) => {
                 <a href="/">Админ</a>
             </li>)}
             {ctx.isLoggedIn && (<li>
-                <button onClick={props.onLogout}>Выйти</button>
+                <button onClick={ctx.onLogout}>Выйти</button>
             </li>)}
         </ul>
     </nav>);
