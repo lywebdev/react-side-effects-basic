@@ -27,19 +27,17 @@ const Login = (props) => {
     };
 
     const passwordReducer = (prevState, action) => {
-        let isValidCondition =  action.value.trim().length > 7;
-
         if (action.type === 'USER_INPUT') {
             return {
                 value: action.value,
-                isValid: isValidCondition,
+                isValid: action.value.trim().length > 7,
             };
         }
 
         if (action.type === 'INPUT_BLUR') {
             return {
                 value: prevState.value,
-                isValid: isValidCondition,
+                isValid: prevState.value.trim().length > 7,
             };
         }
 
